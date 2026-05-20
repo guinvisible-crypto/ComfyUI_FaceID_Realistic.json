@@ -1,0 +1,151 @@
+{
+  "last_node_id": 9,
+  "last_link_id": 11,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [220, 120],
+      "size": [330, 110],
+      "widgets_values": [
+        "realisticVisionV60B1_v51VAE.safetensors"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "IPAdapterUnifiedLoaderFaceID",
+      "pos": [580, 110],
+      "size": [380, 230],
+      "widgets_values": [
+        "FACEID",
+        0.6,
+        "CPU",
+        "buffalo_l",
+        "clip_vision_g.safetensors",
+        "fp32"
+      ],
+      "properties": {
+        "provider": "CPU",
+        "precision": "FP32",
+        "preset": "FACEID",
+        "buffalo_l_influence": 1.0
+      }
+    },
+    {
+      "id": 3,
+      "type": "LoadImage",
+      "pos": [220, 410],
+      "size": [340, 320],
+      "widgets_values": [
+        "your_face_image.png",
+        "image"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "IPAdapterFaceID",
+      "pos": [990, 220],
+      "size": [390, 260],
+      "widgets_values": [
+        1.0,
+        0.0,
+        1.0,
+        "concat",
+        0.85,
+        true,
+        true
+      ],
+      "properties": {
+        "realistic_strength": 0.85,
+        "color_correction": true,
+        "skeleton_fit": true,
+        "cpu_only": true,
+        "precision": "FP32"
+      }
+    },
+    {
+      "id": 5,
+      "type": "KSampler",
+      "pos": [1410, 220],
+      "size": [340, 300],
+      "widgets_values": [
+        773421,
+        "fixed",
+        34,
+        6.5,
+        "euler",
+        "normal",
+        0.9
+      ]
+    },
+    {
+      "id": 6,
+      "type": "EmptyLatentImage",
+      "pos": [1410, 560],
+      "size": [320, 110],
+      "widgets_values": [
+        768,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [990, 530],
+      "size": [390, 150],
+      "widgets_values": [
+        "masterpiece, photorealistic portrait, natural skin texture, consistent skin tone, realistic lighting"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "CLIPVisionLoader",
+      "pos": [580, 390],
+      "size": [380, 120],
+      "widgets_values": [
+        "clip_vision_g.safetensors"
+      ],
+      "properties": {
+        "provider": "CPU",
+        "precision": "FP32"
+      }
+    },
+    {
+      "id": 9,
+      "type": "IPAdapterInsightFaceLoader",
+      "pos": [580, 550],
+      "size": [380, 120],
+      "widgets_values": [
+        "buffalo_l",
+        "CPU",
+        "FP32"
+      ],
+      "properties": {
+        "provider": "CPU",
+        "precision": "FP32",
+        "model": "buffalo_l"
+      }
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "MODEL"],
+    [2, 2, 1, 4, 0, "IPADAPTER"],
+    [3, 3, 0, 4, 1, "IMAGE"],
+    [4, 8, 0, 4, 2, "CLIP_VISION"],
+    [5, 9, 0, 4, 3, "INSIGHTFACE"],
+    [6, 4, 0, 5, 0, "MODEL"],
+    [7, 1, 1, 7, 0, "CLIP"],
+    [8, 7, 0, 5, 1, "CONDITIONING"],
+    [9, 7, 0, 5, 2, "CONDITIONING"],
+    [10, 6, 0, 5, 3, "LATENT"],
+    [11, 2, 2, 9, 0, "INSIGHTFACE_CFG"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "note": "Enhanced CPU/FP32 FaceID workflow with realistic_strength, color_correction, skeleton_fit, buffalo_l, and clip_vision_g",
+    "canvas_center": [980, 420]
+  },
+  "version": 0.4
+}

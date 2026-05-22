@@ -1,0 +1,1135 @@
+{
+  "id": "2763585b-e4ca-4781-a642-023143886ce5",
+  "revision": 9,
+  "last_node_id": 48,
+  "last_link_id": 111,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        320,
+        760
+      ],
+      "size": [
+        280,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            32
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2,
+            12
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "realisticVisionV60B1_v51VAE.safetensors"
+      ]
+    },
+    {
+      "id": 25,
+      "type": "LoadImage",
+      "pos": [
+        760,
+        40
+      ],
+      "size": [
+        270,
+        340
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "your_face_image.png",
+        "image"
+      ]
+    },
+    {
+      "id": 36,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        760,
+        840
+      ],
+      "size": [
+        270,
+        83
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            34
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "clip_vision_g.safetensors"
+      ]
+    },
+    {
+      "id": 34,
+      "type": "IPAdapterInsightFaceLoader",
+      "pos": [
+        1040,
+        250
+      ],
+      "size": [
+        295,
+        169
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INSIGHTFACE",
+          "type": "INSIGHTFACE",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IPAdapterInsightFaceLoader"
+      },
+      "widgets_values": [
+        "CPU",
+        "buffalo_l"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "IPAdapterFaceID",
+      "pos": [
+        1090,
+        470
+      ],
+      "size": [
+        280,
+        448
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 32
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "link": 33
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 16
+        },
+        {
+          "name": "image_negative",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "attn_mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": 101
+        },
+        {
+          "name": "clip_vision",
+          "shape": 7,
+          "type": "CLIP_VISION",
+          "link": 34
+        },
+        {
+          "name": "insightface",
+          "shape": 7,
+          "type": "INSIGHTFACE",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            29
+          ]
+        },
+        {
+          "name": "face_image",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IPAdapterFaceID"
+      },
+      "widgets_values": [
+        0.88,
+        0.98,
+        "ease in-out",
+        "concat",
+        0.0,
+        0.9,
+        "K+V"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -40,
+        320
+      ],
+      "size": [
+        400,
+        180
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "photorealistic portrait, preserve person identity, full head transfer, black hair, natural black bangs, preserve head-neck position, consistent gaze direction, realistic scalp line, realistic ears, coherent anatomy, natural skin texture"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -80,
+        40
+      ],
+      "size": [
+        400,
+        180
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "extra face, duplicate head, face drift, floating facial features, misplaced face, face on chest, wrong hair color, blonde hair, deformed anatomy, broken neck perspective, blurry, lowres"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "LoadImage",
+      "pos": [
+        -40,
+        580
+      ],
+      "size": [
+        270,
+        340
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "your_base_image.png",
+        "image"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "VAEEncode",
+      "pos": [
+        560,
+        340
+      ],
+      "size": [
+        225,
+        72
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "KSampler",
+      "pos": [
+        360,
+        20
+      ],
+      "size": [
+        280,
+        320
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 29
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 111
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        20260522003,
+        "fixed",
+        36,
+        4.6,
+        "dpmpp_2m",
+        "karras",
+        0.36
+      ]
+    },
+    {
+      "id": 37,
+      "type": "PreviewImage",
+      "pos": [
+        700,
+        20
+      ],
+      "size": [
+        280,
+        260
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 35
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": []
+    },
+    {
+      "id": 12,
+      "type": "VAEDecode",
+      "pos": [
+        660,
+        -120
+      ],
+      "size": [
+        225,
+        72
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 30
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            35
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 20,
+      "type": "IPAdapterModelLoader",
+      "pos": [
+        660,
+        500
+      ],
+      "size": [
+        300,
+        110
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IPADAPTER",
+          "type": "IPADAPTER",
+          "links": [
+            33
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IPAdapterModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter-faceid-plusv2_sd15.bin"
+      ]
+    },
+    {
+      "id": 38,
+      "type": "LoadImage",
+      "pos": [
+        -380,
+        580
+      ],
+      "size": [
+        270,
+        340
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            100
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "your_head_mask.png",
+        "image"
+      ]
+    },
+    {
+      "id": 39,
+      "type": "ImageToMask",
+      "pos": [
+        -60,
+        920
+      ],
+      "size": [
+        220,
+        80
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 100
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            101
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "red"
+      ]
+    },
+    {
+      "id": 41,
+      "type": "LatentUpscale",
+      "pos": [
+        920,
+        -120
+      ],
+      "size": [
+        260,
+        120
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            105
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LatentUpscale"
+      },
+      "widgets_values": [
+        "nearest-exact",
+        1.5
+      ]
+    },
+    {
+      "id": 42,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -420,
+        20
+      ],
+      "size": [
+        420,
+        180
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            106
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "high detail hair strands, clean hairline, detailed eyes, natural lips, preserve identity, preserve skin tone consistency, black hair"
+      ]
+    },
+    {
+      "id": 43,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -420,
+        220
+      ],
+      "size": [
+        420,
+        180
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            107
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "hair artifacts, wrong hair color, eye distortion, lip distortion, duplicate facial features, identity drift"
+      ]
+    },
+    {
+      "id": 44,
+      "type": "KSampler",
+      "pos": [
+        1220,
+        -120
+      ],
+      "size": [
+        300,
+        320
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 29
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 106
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 107
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 105
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        20260522004,
+        "fixed",
+        24,
+        5.4,
+        "dpmpp_2m",
+        "karras",
+        0.25
+      ]
+    },
+    {
+      "id": 45,
+      "type": "VAEDecode",
+      "pos": [
+        1540,
+        -120
+      ],
+      "size": [
+        240,
+        80
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 108
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            109,
+            110
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 46,
+      "type": "PreviewImage",
+      "pos": [
+        1800,
+        -200
+      ],
+      "size": [
+        260,
+        260
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 109
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": []
+    },
+    {
+      "id": 47,
+      "type": "SaveImage",
+      "pos": [
+        1800,
+        80
+      ],
+      "size": [
+        260,
+        260
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 110
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "FaceID_Realistic_StageB"
+      ]
+    },
+    {
+      "id": 48,
+      "type": "ConditioningSetMask",
+      "pos": [
+        300,
+        900
+      ],
+      "size": [
+        280,
+        120
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 3
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 101
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            111
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConditioningSetMask"
+      },
+      "widgets_values": [
+        "default",
+        1.0
+      ]
+    }
+  ],
+  "links": [
+    [
+      2,
+      2,
+      1,
+      4,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      4,
+      0,
+      5,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      8,
+      2,
+      2,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      17,
+      0,
+      5,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      2,
+      1,
+      17,
+      0,
+      "CLIP"
+    ],
+    [
+      16,
+      25,
+      0,
+      30,
+      2,
+      "IMAGE"
+    ],
+    [
+      18,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      19,
+      32,
+      0,
+      5,
+      3,
+      "LATENT"
+    ],
+    [
+      20,
+      2,
+      2,
+      32,
+      1,
+      "VAE"
+    ],
+    [
+      23,
+      34,
+      0,
+      30,
+      6,
+      "INSIGHTFACE"
+    ],
+    [
+      29,
+      30,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      30,
+      5,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      32,
+      2,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      33,
+      20,
+      0,
+      30,
+      1,
+      "IPADAPTER"
+    ],
+    [
+      34,
+      36,
+      0,
+      30,
+      5,
+      "CLIP_VISION"
+    ],
+    [
+      35,
+      12,
+      0,
+      37,
+      0,
+      "IMAGE"
+    ],
+    [
+      100,
+      38,
+      0,
+      39,
+      0,
+      "IMAGE"
+    ],
+    [
+      101,
+      39,
+      0,
+      30,
+      4,
+      "MASK"
+    ],
+    [
+      105,
+      41,
+      0,
+      44,
+      3,
+      "LATENT"
+    ],
+    [
+      106,
+      42,
+      0,
+      44,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      107,
+      43,
+      0,
+      44,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      108,
+      44,
+      0,
+      45,
+      0,
+      "LATENT"
+    ],
+    [
+      109,
+      45,
+      0,
+      46,
+      0,
+      "IMAGE"
+    ],
+    [
+      110,
+      45,
+      0,
+      47,
+      0,
+      "IMAGE"
+    ],
+    [
+      111,
+      48,
+      0,
+      5,
+      1,
+      "CONDITIONING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8,
+      "offset": [
+        120,
+        80
+      ]
+    },
+    "frontendVersion": "1.43.18",
+    "note": "Removed OpenPose Pose node for compatibility; keep core FaceID pipeline; hard-fixed id32 slot0 pixels link and id33 ipadapter link."
+  },
+  "version": 0.4
+}
